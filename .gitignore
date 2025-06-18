@@ -1,0 +1,25 @@
+# Diretórios de build
+Debug/
+Release/
+
+# Configurações
+.settings/
+
+# Arquivos intermediários
+*.out
+*.map
+*.obj
+*.o
+*.d
+*.opt
+*.xml
+*.mk
+
+# Cache e índices
+.clangd/
+**/.cache/
+compile_commands.json
+
+# Logs temporários
+*.log
+*.tmp
