@@ -1,4 +1,5 @@
 #include "lcd.h"
+#include "utils.h"
 #include <msp430.h>
 
 void lcdPreInit(void)
@@ -99,15 +100,9 @@ void lcdWriteWaitSeconds(uint8_t remainingSeconds) {
   lcdClear();           // Sobrescrever
   lcdWrite("   Aguarde "); 
 
-  // Int to ASCII (até 10)
-  if (remainingSeconds == 10) {
-    lcdWrite("10");
-  } else {
-    char c_str[2];
-    c_str[0] = remainingSeconds + '0';
-    c_str[1] = '\0';
-    lcdWrite(c_str);
-  }
+  char c[3];
+  uitoascii(remainingSeconds, c);
+  lcdWrite(c);
 
   lcdWrite(" s...");
 }
