@@ -27,7 +27,7 @@
                             </option>
                             <option id="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION.2037179323" superClass="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION" value="21.6.1.LTS" valueType="string"/>
                             <targetPlatform id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.targetPlatformDebug.219980640" name="Platform" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.targetPlatformDebug"/>
-                            <builder buildPath="${BuildDirectory}" id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.builderDebug.896371231" name="GNU Make.Debug" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.builderDebug"/>
+                            <builder buildPath="${BuildDirectory}" id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.builderDebug.896371231" keepEnvironmentInBuildfile="false" name="GNU Make" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.builderDebug"/>
                             <tool id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.compilerDebug.494681725" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.compilerDebug">
                                 <option id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.DEFINE.1029111065" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.DEFINE" valueType="definedSymbols">
                                     <listOptionValue value="__MSP430F5529__"/>
@@ -48,7 +48,7 @@
                                 <option id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.DIAG_WRAP.133817541" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.DIAG_WRAP" value="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.DIAG_WRAP.off" valueType="enumerated"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.INCLUDE_PATH.1361297908" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.INCLUDE_PATH" valueType="includePath">
                                     <listOptionValue value="${CCS_BASE_ROOT}/msp430/include"/>
-                                    <listOptionValue value="${PROJECT_ROOT}"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/include"/>
                                     <listOptionValue value="${CG_TOOL_ROOT}/include"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.ADVICE__POWER.943237728" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.ADVICE__POWER" value="all" valueType="string"/>
@@ -78,6 +78,22 @@
                                 <option id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.hex.ROMWIDTH.1253476655" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.hex.ROMWIDTH" value="8" valueType="string"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.hex.MEMWIDTH.188857478" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.hex.MEMWIDTH" value="8" valueType="string"/>
                             </tool>
+                        </toolChain>
+                    </folderInfo>
+                    <folderInfo id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1300198937.targetConfigs" name="targetConfigs" resourcePath="targetConfigs">
+                        <toolChain id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.DebugToolchain.1041274594" name="TI Build Tools" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.DebugToolchain" unusedChildren="">
+                            <option id="com.ti.ccstudio.buildDefinitions.core.OPT_TAGS.19140784.83855105" superClass="com.ti.ccstudio.buildDefinitions.core.OPT_TAGS.19140784"/>
+                            <option id="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION.2037179323.2050579238" superClass="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION.2037179323"/>
+                            <targetPlatform id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.targetPlatformDebug" name="Platform" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.targetPlatformDebug"/>
+                            <tool id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.compilerDebug.353486342" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.compilerDebug.494681725">
+                                <option id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.INCLUDE_PATH.1731501389" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.compilerID.INCLUDE_PATH" valueType="includePath">
+                                    <listOptionValue value="${CCS_BASE_ROOT}/msp430/include"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/include"/>
+                                    <listOptionValue value="${CG_TOOL_ROOT}/include"/>
+                                </option>
+                            </tool>
+                            <tool id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.linkerDebug.266038891" name="MSP430 Linker" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.exe.linkerDebug.1424995368"/>
+                            <tool id="com.ti.ccstudio.buildDefinitions.MSP430_21.6.hex.741408779" name="MSP430 Hex Utility" superClass="com.ti.ccstudio.buildDefinitions.MSP430_21.6.hex.1483046787"/>
                         </toolChain>
                     </folderInfo>
                 </configuration>
