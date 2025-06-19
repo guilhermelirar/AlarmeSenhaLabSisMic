@@ -1,0 +1,25 @@
+#include "utils.h"
+
+void uitoascii(uint8_t value, char *buffer) {
+  if (value == 0) {
+    buffer[0] = '0';
+    buffer[1] = '\0';
+    return;
+  }
+
+  char temp[3];   
+  uint8_t i = 0;
+
+  while (value > 0) {
+    temp[i++] = (value % 10) + '0';
+    value /= 10;
+  }
+
+  // Inverter, pois temp = {Unidade, Dezena, ?} 
+  uint8_t j = 0;
+  while (i > 0) {
+    buffer[j++] = temp[--i];
+  }
+
+  buffer[j] = '\0';
+}
