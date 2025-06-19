@@ -1,4 +1,5 @@
 #include <msp430.h>
+#include "lcd.h"
 
 int main(void)
 {
@@ -6,6 +7,10 @@ int main(void)
 
   WDTCTL = WDTPW+WDTHOLD;                   // Stop WDT
   P1DIR |= BIT0;                            // P1.0 set as output
+
+  lcdPreInit();
+  lcdWake();
+  lcdWrite("Hello World!");
 
   while(1)                                  // continuous loop
   {
