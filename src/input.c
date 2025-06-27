@@ -1,8 +1,10 @@
 #include "input.h"
+#include "utils.h"
 
 void buttonsInit(void) 
 {
-  input_size = 0;
+  input.size = 0;
+  input.last_input_time = 0;
   P1DIR &= ~BIT1;       // entrada
   P1REN |= BIT1;        // habilita resistor interno
   P1OUT |= BIT1;        // pull-up
@@ -23,7 +25,7 @@ Input* getInput() {
   if (milis() - input.last_input_time > 3000) {
     input.size = 0;
   }
-  return input;
+  return &input;
 }
 
 #pragma vector=PORT1_VECTOR

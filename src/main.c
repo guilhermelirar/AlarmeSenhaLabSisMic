@@ -2,6 +2,7 @@
 #include "lcd.h"
 #include "led.h"
 #include "utils.h"
+#include "fsm.h"
 
 int main(void)
 {
@@ -11,6 +12,7 @@ int main(void)
   P1DIR |= BIT0;                            // P1.0 set as output
 
   lcdPreInit();
+  led_Init();
   lcdWake();
   lcdWrite("Hello World!");
 
@@ -21,7 +23,6 @@ int main(void)
   
   while(1)                                  // continuous loop
   {
-    led_Init();
-    led_R_stt_Blink();
+    updateState(); 
   }
 }

@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include <msp430.h>
+#include <stdint.h>
 
 typedef unsigned char u8;
 

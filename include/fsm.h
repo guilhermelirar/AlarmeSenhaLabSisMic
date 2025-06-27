@@ -7,7 +7,7 @@ typedef enum {
   ACCESS_GRANTED
 } State;
 
-void uptadeState();
+void updateState();
 
 void processUARTCommand();
 
