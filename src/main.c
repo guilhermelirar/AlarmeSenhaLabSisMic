@@ -20,7 +20,7 @@ int main(void)
   
   while(1)                                  // continuous loop
   {
-    if (ms - milis() >= 1000) {             // 1 segundo se passou
+    if (milis() - ms >= 1000) {             // 1 segundo se passou
       P1OUT ^= BIT0;                        // XOR P1.0
       ms = milis();                         // Atualiza milis
     }
