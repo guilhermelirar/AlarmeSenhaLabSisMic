@@ -1,5 +1,6 @@
 #include <msp430.h>
 #include "lcd.h"
+#include "led.h"
 #include "utils.h"
 
 int main(void)
@@ -20,9 +21,7 @@ int main(void)
   
   while(1)                                  // continuous loop
   {
-    if (milis() - ms >= 1000) {             // 1 segundo se passou
-      P1OUT ^= BIT0;                        // XOR P1.0
-      ms = milis();                         // Atualiza milis
-    }
+    led_Init();
+    led_R_stt_Blink();
   }
 }

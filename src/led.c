@@ -58,9 +58,12 @@ void led_Blocked(){
 
 void led_R_stt_Blink(){
     led_R_on();
-    if(ms- milis() >= 100){
+    
+    while(1){
+    if(milis() - ms >= 1000){
         P1OUT^=LED_R;
         ms = milis();
+        }
     }
 }
 

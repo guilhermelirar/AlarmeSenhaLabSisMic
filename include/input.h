@@ -3,13 +3,16 @@
 
 #include <msp430.h>
 
-#define S1 BIT1
-#define S2 BIT1
-
 typedef unsigned char u8;
 
-void inputConfig(); // Configura botões
-u8 getInputSize(); // 0, 1, 2, 3, 4, 5 
-u8* getInput();    // Rentorna entrada 
+typedef struct {
+  u8 buffer[5];
+  u8 size;
+  uint32_t last_input_time;
+} Input;
+
+static volatile Input input;
+
+Input* getInput();  // Retorna entrada 
 
 #endif // INPUT_H

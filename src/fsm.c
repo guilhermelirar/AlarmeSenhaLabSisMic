@@ -3,10 +3,9 @@
 #include "utils.h"
 #include "input.h"
 
-static volatile State state = SLEEPING;
-
 void updateState() {
-  static uint32_t last_input = 0;
+  static volatile State state = SLEEPING;
+  static Input input = getInput();
 
   switch (state) {
   case SLEEPING: {
@@ -21,22 +20,24 @@ void updateState() {
     break;
   }
 
-  case READING_INPUT: {
-    u8 input_size = getInputSize();
-    
+  case READING_INPUT: {    
     // Entrada pronta para ser verificada
-    if (input_size == 5) {
+    if (input.size == 5) {
+      input.size = 0;
       state = ACCESS_GRANTED;
       lcdWrite("Acesso Liberado!");
     }
 
     // Tempo desde que a entrada não está vazia
-    if (input_size > 0) {
-      last_input = milis();  
-    } else if (milis() - last_input > 3000) {
+    if (input.size == 0 && (milis() - input.last_input_time) > 3000) {
       state = SLEEPING; // Entrar no modo dormir
     } 
 
+    break;
+  }
+
+  case ACCESS_GRANTED: {
+      
     break;
   }
   }
