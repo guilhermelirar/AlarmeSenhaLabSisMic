@@ -13,8 +13,11 @@ int main(void)
   lcdWake();
   lcdWrite("Hello World!");
 
-  uint32_t ms = milis(); 
+  timerConfig();
+  __enable_interrupt();
 
+  uint32_t ms = milis(); 
+  
   while(1)                                  // continuous loop
   {
     if (ms - milis() >= 1000) {             // 1 segundo se passou
