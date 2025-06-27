@@ -1,11 +1,8 @@
-#ifndef LED_C_INCLUDED
-#define LED_C_INCLUDED
-
 #include "include/led.h"
 #include "utils.h"
 #include <msp430.h>
 
-uint32_t ms - milis();
+uint32_t ms = milis();
 
 void led_Init(){
     P1DIR |= LED_R;     // Define o Led vermelho como saida
@@ -74,7 +71,7 @@ void led_R_stp_Blink(){
 
 void led_G_stt_Blink(){
     led_G_on();
-    if(ms- milis() >= 100){
+    if(milis()- ms >= 1000){
         P4OUT^=LED_G;
         ms = milis();
     }
@@ -83,6 +80,3 @@ void led_G_stt_Blink(){
 void led_G_stp_Blink(){
     led_G_off();
 }
-
-
-#endif // LED_C_INCLUDED
