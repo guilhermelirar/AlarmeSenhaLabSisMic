@@ -1,5 +1,6 @@
 #include <msp430.h>
 #include "lcd.h"
+#include "utils.h"
 
 int main(void)
 {
@@ -12,9 +13,16 @@ int main(void)
   lcdWake();
   lcdWrite("Hello World!");
 
+  timerConfig();
+  __enable_interrupt();
+
+  uint32_t ms = milis(); 
+  
   while(1)                                  // continuous loop
   {
-    P1OUT ^= BIT0;                          // XOR P1.0
-    for(i=50000;i>0;i--);                   // Delay
+    if (milis() - ms >= 1000) {             // 1 segundo se passou
+      P1OUT ^= BIT0;                        // XOR P1.0
+      ms = milis();                         // Atualiza milis
+    }
   }
 }
