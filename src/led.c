@@ -1,8 +1,6 @@
-#include "include/led.h"
+#include "led.h"
 #include "utils.h"
 #include <msp430.h>
-
-uint32_t ms = milis();
 
 void led_Init(){
     P1DIR |= LED_R;     // Define o Led vermelho como saida
@@ -10,6 +8,7 @@ void led_Init(){
 
     led_R_off();        // Garante que o Led vermelho comece desligado
     led_G_off();        // Garante que o Led verde comece desligado
+    ms = milis();
 }
 
 void led_R_on(){

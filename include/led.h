@@ -4,6 +4,10 @@
 #define LED_R BIT0
 #define LED_G BIT7
 
+#include "utils.h"
+
+uint32_t ms;
+
 // Inicialização das Configurações dos Leds
 void led_Init();
 
