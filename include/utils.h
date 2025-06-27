@@ -7,4 +7,10 @@
 // value precisa ser < 100
 void uitoascii(uint8_t value, char *buffer);
 
+// Configuração de timers
+void timerConfig();
+
+// Retorna milissegundos que passaram
+uint32_t milis(void); 
+
 #endif // UTILS_H_INCLUDED

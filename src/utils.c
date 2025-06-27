@@ -1,5 +1,11 @@
 #include "utils.h"
 
+static volatile uint32_t ms = 0;
+
+uint32_t milis(void) {
+  return ms;
+}
+
 void uitoascii(uint8_t value, char *buffer) {
   if (value == 0) {
     buffer[0] = '0';
@@ -22,4 +28,15 @@ void uitoascii(uint8_t value, char *buffer) {
   }
 
   buffer[j] = '\0';
+}
+
+void timerConfig(void) {
+  TA0CCTL0 |= CCIE;
+  TA0CTL = TASSEL__SMCLK | MC__UP | TACLR; // @ 1Mhz
+  TA0CCR0 = 1000; // 1 ms 
+}
+
+#pragma vector = TIMER0_A0_VECTOR
+__interrupt void Timer0_A0_ISR(void) {
+  ms++;
 }
