@@ -44,7 +44,7 @@ void led_R_stt_Blink();
 // Configuracao do Led vermelho parar de piscar
 void led_R_stp_Blink();
 
-// Configuracao do Led verde comecar a piscar
+// Configuracao do Led verde comecar ab piscar
 void led_G_stt_Blink();
 
 // Configuracao do Led verde parar de piscar
