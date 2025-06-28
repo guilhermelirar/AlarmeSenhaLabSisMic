@@ -7,6 +7,10 @@ uint32_t milis(void) {
   return ms;
 }
 
+uint8_t timeout(uint32_t start, uint16_t limit) {
+  return ms - start >= limit; 
+}
+
 void uitoascii(uint8_t value, char *buffer) {
   if (value == 0) {
     buffer[0] = '0';
