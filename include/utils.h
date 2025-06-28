@@ -14,6 +14,6 @@ void timerConfig();
 uint32_t milis(void);
 
 // Retorna 1 se o tempo expirou, 0 caso contrário
-uint8_t timeout(uint32_t start, uint16_t limit)
+uint8_t timeout(uint32_t start, uint16_t limit);
 
 #endif // UTILS_H_INCLUDED
