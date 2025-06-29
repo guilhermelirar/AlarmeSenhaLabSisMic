@@ -138,6 +138,7 @@ State stateBlocked(u8 entering)
         lcdClear();
         led_R_stt_Blink(500);
         last_time_dec = milis();
+        time_remaining = 10;
     }
     
     if (timeout(last_time_dec, 1000))
