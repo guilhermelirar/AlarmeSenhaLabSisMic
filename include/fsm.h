@@ -1,6 +1,8 @@
 #ifndef FINITE_STATE_MACHINE_H
 #define FINITE_STATE_MACHINE_H
 
+#include "utils.h"
+
 typedef enum {
     SLEEPING,
     READING_INPUT,
@@ -12,12 +14,13 @@ typedef enum {
 } State;
 
 void updateState();                     // Atualizar o estado da máquina
-void stateTransition(State next_state); // Imediatamente após mudança de estado
 
 // Funções para comportamento de cada estado
-State stateReadingInput();
-State stateAccessGranted();
-State stateDenied();
-State stateBlocked();
+//  entering deve ser !0 se entrando no estado pela primeira vez
+//  e 0 se não houve mudança de estado
+State stateReadingInput(u8 entering);
+State stateAccessGranted(u8 entering);
+State stateAccessDenied(u8 entering);
+State stateBlocked(u8 entering);
 
-#endif
+#endif // FINITE_STATE_MACHINE_H
