@@ -23,13 +23,18 @@ void inputInit(void)
     TA1CTL = TASSEL_2 + MC_0 + TACLR;
 }
 
+void clearInput(void)
+{
+    input.length = 0;
+    input.last_modified = milis();  
+}
+
 void inputUpdate(void)
 {
     inputDisable();
     if (input.length && timeout(input.last_modified, 3000))
     {
-        input.length = 0;               // Limpa o buffer
-        input.last_modified = milis();  // Vazio desde agora
+        clearInput();
     }
     inputEnable();
 }
