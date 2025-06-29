@@ -2,83 +2,98 @@
 #include "utils.h"
 #include <msp430.h>
 
-void led_Init(){
-    P1DIR |= LED_R;     // Define o Led vermelho como saida
-    P4DIR |= LED_G;     // Define o Led verde como saida
+uint8_t blinking = 0;
+uint32_t led_r_period = 0, led_g_period = 0, led_r_start = 0, led_g_start = 0;
 
-    led_R_off();        // Garante que o Led vermelho comece desligado
-    led_G_off();        // Garante que o Led verde comece desligado
-    ms = milis();
+void led_Init() {
+  P1DIR |= LED_R; // Define o Led vermelho como saida
+  P4DIR |= LED_G; // Define o Led verde como saida
+
+  led_R_off(); // Garante que o Led vermelho comece desligado
+  led_G_off(); // Garante que o Led verde comece desligado
 }
 
-void led_R_on(){
-    P1OUT |= LED_R;     // Liga o LED vermelho
+void led_R_on() {
+  blinking &= ~LED_R; // Para de piscar
+  P1OUT |= LED_R;     // Liga o LED vermelho
 }
 
-void led_R_off(){
-    P1OUT &= ~LED_R;    // Desliga o LED vermelho
+void led_R_off() {
+  blinking &= ~LED_R; // Para de piscar
+  P1OUT &= ~LED_R;    // Desliga o LED vermelho
 }
 
-void led_G_on(){
-    P4OUT |= LED_G;     // Liga o LED verde
+void led_G_on() {
+  blinking &= ~LED_G; // Para de piscar
+  P4OUT |= LED_G;     // Liga o LED verde
 }
 
-void led_G_off(){
-    P4OUT &= ~LED_G;    // Desliga o LED verde
+void led_G_off() {
+  blinking &= ~LED_G; // Para de piscar
+  P4OUT &= ~LED_G;    // Desliga o LED verde
 }
 
-void led_Sleeping_Mode(){
-    led_R_stp_Blink();
-    led_G_stp_Blink();
-    led_R_on();
-    led_G_off();
-}
-void led_Reading_Input(){
-    led_R_stp_Blink();
-    led_G_stp_Blink();
-
+void led_G_toggle() {
+  P4OUT ^= LED_G; // Alterna estado
 }
 
-void led_Acess_Garanted(){
-    led_R_stp_Blink();
-    led_R_off();
-    led_G_stt_Blink();
-}
-void led_Acess_Denied(){
-    led_R_stt_Blink();
-    led_G_stp_Blink();
-    led_G_off();
+void led_R_toggle() {
+  P1OUT ^= LED_R; // Alterna estado
 }
 
-void led_Blocked(){
-    led_R_stt_Blink();
-    led_G_stp_Blink();
-    led_G_off();
+void led_Sleeping_Mode() {
+  led_G_off();
+  led_R_on();
 }
 
-void led_R_stt_Blink(){
-    led_R_on();
-    
-    while(1){
-    if(milis() - ms >= 1000){
-        P1OUT^=LED_R;
-        ms = milis();
-        }
+void led_Reading_Input() {
+  led_G_off();
+  led_R_off();
+}
+
+void led_Acess_Garanted() {
+  led_R_off();
+  led_G_stt_Blink(500);
+}
+
+void led_Acess_Denied() {
+  led_R_stt_Blink(250);
+  led_G_off();
+}
+
+void led_Blocked() {
+  led_R_stt_Blink(500);
+  led_G_off();
+}
+
+void led_R_stt_Blink(uint32_t period) {
+  led_g_start = milis();  // Pega tempo atual
+  led_r_period = period;  // Seta período de alternar
+  blinking |= LED_R;      // Sinaliza blinking
+}
+
+void led_G_stt_Blink(uint32_t period) {
+  led_g_start = milis();
+  led_g_period = period;
+  blinking |= LED_G;
+}
+
+void led_update() {
+  // Se led vermelho pisca
+  if ((blinking & LED_R)) {
+    // Passou período de piscar
+    if (timeout(led_r_start, led_r_period)) {
+      led_R_toggle();         // Alterna estado
+      led_r_start = milis();  // Novo referencial
     }
-}
+  }
 
-void led_R_stp_Blink(){
-    led_R_off();
-}
-
-void led_G_stt_Blink(){
-    led_G_on();
-    if(milis()- ms >= 1000){
-        P4OUT^=LED_G;
-        ms = milis();
+  // Se led verde pisca
+  if ((blinking & LED_G)) {
+    // Passou período de piscar
+    if (timeout(led_g_start, led_g_period)) {
+      led_G_toggle();         // Alterna estado
+      led_g_start = milis();  // Novo referencial
     }
-}
-
-void led_G_stp_Blink(){
-    led_G_off();
+  } 
 }
