@@ -34,6 +34,15 @@ void lcdWrite(char *str);
 // Escreve mensagem de aguardar remainingSeconds
 void lcdWriteWaitSeconds(uint8_t remainingSeconds);
 
+// Apaga segunda linha do LCD
+void lcdClearLine2(void); 
+
+// Cursor no início da segunda linha
+static inline line2(void)
+{
+  lcdWriteByte(0xC0, 0);
+}
+
 static inline void lcdSleep(void) {
   lcdWriteByte(0x08, 0); // Display OFF, cursor OFF, blink OFF
 }

@@ -108,3 +108,12 @@ void lcdWriteWaitSeconds(uint8_t remainingSeconds) {
 
   lcdWrite(" s...");
 }
+
+void lcdClearLine2(void) {
+    lcdWriteByte(0xC0, 0); // DDRAN para inicio da segunda linha
+    u8 i;
+    for (i = 16; i; i--) {
+        lcdWriteByte(' ', 1); // Escreve 16 espaços
+    }
+    lcdWriteByte(0xC0, 0);
+}
