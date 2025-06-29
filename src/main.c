@@ -2,26 +2,28 @@
 #include "lcd.h"
 #include "led.h"
 #include "utils.h"
+#include "fsm.h"
+#include "input.h"
 
 int main(void)
 {
   volatile unsigned int i;
 
   WDTCTL = WDTPW+WDTHOLD;                   // Stop WDT
-  P1DIR |= BIT0;                            // P1.0 set as output
 
+  // Inicialização de módulos
   lcdPreInit();
-  lcdWake();
-  lcdWrite("Hello World!");
-
+  led_Init();
+  inputInit();
   timerConfig();
+        
+  // Interrupções
   __enable_interrupt();
 
-  uint32_t ms = milis(); 
-  
   while(1)                                  // continuous loop
   {
-    led_Init();
-    //led_R_stt_Blink();
+    inputUpdate();   
+    updateState();
+    led_update();
   }
 }
