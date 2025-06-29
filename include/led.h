@@ -30,8 +30,8 @@ void led_Acess_Denied();
 void led_Blocked();
 
 // Piscamento de LEDs
-void led_R_stt_Blink(uint32_t period);
-void led_G_stt_Blink(uint32_t period);
+void led_R_stt_Blink(u32 period);
+void led_G_stt_Blink(u32 period);
 void led_update();
 
 #endif // LED_H_INCLUDED

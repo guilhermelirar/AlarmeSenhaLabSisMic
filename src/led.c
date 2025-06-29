@@ -2,8 +2,8 @@
 #include "utils.h"
 #include <msp430.h>
 
-uint8_t blinking = 0;
-uint32_t led_r_period = 0, led_g_period = 0, led_r_start = 0, led_g_start = 0;
+u8 blinking = 0;
+u32 led_r_period = 0, led_g_period = 0, led_r_start = 0, led_g_start = 0;
 
 void led_Init() {
   P1DIR |= LED_R; // Define o Led vermelho como saida
@@ -66,13 +66,13 @@ void led_Blocked() {
   led_G_off();
 }
 
-void led_R_stt_Blink(uint32_t period) {
+void led_R_stt_Blink(u32 period) {
   led_g_start = milis();  // Pega tempo atual
   led_r_period = period;  // Seta período de alternar
   blinking |= LED_R;      // Sinaliza blinking
 }
 
-void led_G_stt_Blink(uint32_t period) {
+void led_G_stt_Blink(u32 period) {
   led_g_start = milis();
   led_g_period = period;
   blinking |= LED_G;
