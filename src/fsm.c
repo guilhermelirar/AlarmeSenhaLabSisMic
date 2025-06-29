@@ -27,6 +27,7 @@ void updateState(void)
             if (entering) 
             {
                 lcdSleep();
+                led_G_off();
                 led_G_stt_Blink(30);
             }
             break;
@@ -58,6 +59,7 @@ State stateReadingInput(u8 entering)
     if (entering)
     {
         lcdClear();
+        led_R_off();
         lcdWrite("INSIRA A SENHA:");
         inputEnable();
     }
@@ -134,6 +136,7 @@ State stateBlocked(u8 entering)
     {
         inputDisable();
         lcdClear();
+        led_R_stt_Blink(500);
         last_time_dec = milis();
     }
     
