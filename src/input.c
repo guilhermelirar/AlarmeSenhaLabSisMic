@@ -80,7 +80,7 @@ __interrupt void debounce(void) {
     // (else if para invalidar quando dois botões pressionados)
     if ((P1IN & BIT1) == 0) 
     {
-        input.buffer[input.length++] = 0;  
+        input.buffer[input.length++] = 2;  
         input.last_modified = milis();
     } 
     else if ((P2IN & BIT1) == 0) 
