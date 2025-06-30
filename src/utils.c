@@ -1,13 +1,17 @@
 #include "utils.h"
 #include <msp430.h>
 
-static volatile uint32_t ms = 0;
+static volatile u32 ms = 0;
 
-uint32_t milis(void) {
+u32 milis(void) {
   return ms;
 }
 
-void uitoascii(uint8_t value, char *buffer) {
+u8 timeout(u32 start, u16 limit) {
+  return ms - start >= limit; 
+}
+
+void uitoascii(u8 value, char *buffer) {
   if (value == 0) {
     buffer[0] = '0';
     buffer[1] = '\0';
@@ -15,7 +19,7 @@ void uitoascii(uint8_t value, char *buffer) {
   }
 
   char temp[3];   
-  uint8_t i = 0;
+  u8 i = 0;
 
   while (value > 0) {
     temp[i++] = (value % 10) + '0';
@@ -23,7 +27,7 @@ void uitoascii(uint8_t value, char *buffer) {
   }
 
   // Inverter, pois temp = {Unidade, Dezena, ?} 
-  uint8_t j = 0;
+  u8 j = 0;
   while (i > 0) {
     buffer[j++] = temp[--i];
   }
