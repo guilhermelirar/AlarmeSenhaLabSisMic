@@ -72,7 +72,7 @@ u8 inputLength(void)
     return input.length;
 }
 
-#pragma vector = TIMER0_A1_VECTOR
+#pragma vector = TIMER1_A0_VECTOR
 __interrupt void debounce(void) {
     TA1CTL = MC_0;    // Para o timer
 
