@@ -21,11 +21,13 @@ void led_R_on() {
 void led_R_off() {
   blinking &= ~LED_R; // Para de piscar
   P1OUT &= ~LED_R;    // Desliga o LED vermelho
+  led_r_period = 0;
 }
 
 void led_G_on() {
   blinking &= ~LED_G; // Para de piscar
   P4OUT |= LED_G;     // Liga o LED verde
+  led_g_period = 0;
 }
 
 void led_G_off() {
@@ -67,7 +69,7 @@ void led_Blocked() {
 }
 
 void led_R_stt_Blink(u32 period) {
-  led_g_start = milis();  // Pega tempo atual
+  led_r_start = milis();  // Pega tempo atual
   led_r_period = period;  // Seta período de alternar
   blinking |= LED_R;      // Sinaliza blinking
 }

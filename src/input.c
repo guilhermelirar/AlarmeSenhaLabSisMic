@@ -26,7 +26,7 @@ void inputInit(void)
 void clearInput(void)
 {
     input.length = 0;
-    input.last_modified = milis();  
+    input.last_modified = milis();
 }
 
 void inputUpdate(void)
@@ -64,7 +64,7 @@ volatile u8* inputBuffer(void)
 
 u8 inputIsActive(void)
 {
-    return !(input.length == 0 && timeout(input.last_modified, 30000));
+    return !(input.length == 0 && timeout(input.last_modified, 3000));
 }
 
 u8 inputLength(void)
@@ -72,7 +72,7 @@ u8 inputLength(void)
     return input.length;
 }
 
-#pragma vector = TIMER0_A1_VECTOR
+#pragma vector = TIMER1_A0_VECTOR
 __interrupt void debounce(void) {
     TA1CTL = MC_0;    // Para o timer
 
