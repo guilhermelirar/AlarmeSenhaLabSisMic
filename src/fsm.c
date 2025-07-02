@@ -82,10 +82,10 @@ State stateReadingInput(u8 entering)
             input[2] == 1 && input[3] == 1 &&
             input[4] == 1) {
             // Ir para acesso garantido
-            access_attempts = 0;
+            clearInput();
             return ACCESS_GRANTED;
         } else {
-            access_attempts++;
+            clearInput();
             return ACCESS_DENIED;
         }
         // ==================================
@@ -97,6 +97,7 @@ State stateAccessGranted(u8 entering)
 {
     if (entering)
     {
+        access_attempts = 0;
         lcdClear();
         lcdWrite("ACESSO LIBERADO!");
         led_G_on();
@@ -117,6 +118,7 @@ State stateAccessDenied(u8 entering)
         lcdWrite("ACESSO NEGADO!");
         led_G_off();
         led_R_stt_Blink(500);
+        access_attempts++;
     }
 
     // Depende de quantas tentativas erradas seguidas
@@ -135,6 +137,7 @@ State stateBlocked(u8 entering)
     static u32 last_time_dec = 0;
     if (entering)
     {
+        access_attempts = 0;
         inputDisable();
         lcdClear();
         led_R_stt_Blink(500);
