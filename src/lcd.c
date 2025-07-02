@@ -26,7 +26,7 @@ void i2cInitMaster(void) {
 }
 
 void lcdInit(void) {
-  uint8_t nibble = 3;
+  uint8_t nibble = 3 << 4; // Colocando no msb
 
   // Iniciando LCD corretamente
   lcdWriteNibble(nibble, 0);
@@ -37,7 +37,7 @@ void lcdInit(void) {
   __delay_cycles(20000);
 
   // Modo 4 bits
-  nibble = 2;
+  nibble = 2 << 4;
   lcdWriteNibble(nibble, 0);
   __delay_cycles(20000);
 
