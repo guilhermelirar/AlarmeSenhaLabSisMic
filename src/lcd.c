@@ -64,8 +64,8 @@ uint8_t i2cSend(uint8_t slaveAddr, uint8_t data) {
 }
 
 uint8_t lcdWriteNibble(uint8_t nibble, uint8_t isChar) {
-  uint8_t data = (nibble) & 0xF0; // Coloca o nibble em D7–D4
-  data |= LCD_BL;                 // Mantém a luz de fundo ligada
+  uint8_t data = (nibble << 4) & 0xF0;  // Coloca o nibble em D7–D4
+  data |= LCD_BL;                       // Mantém a luz de fundo ligada
 
   if (isChar)
     data |= LCD_RS; // RS = 1 se for caractere
@@ -78,8 +78,8 @@ uint8_t lcdWriteNibble(uint8_t nibble, uint8_t isChar) {
 }
 
 uint8_t lcdWriteByte(uint8_t byte, uint8_t isChar) {
-  uint8_t nack = lcdWriteNibble(byte, isChar); // byte[7:4]
-  nack |= lcdWriteNibble(byte << 4, isChar);   // byte[3:0]
+  uint8_t nack = lcdWriteNibble(byte >> 4, isChar); // byte[7:4]
+  nack |= lcdWriteNibble(byte & 0x0F, isChar);   // byte[3:0]
   return nack;
 }
 
