@@ -9,7 +9,7 @@ u8 access_attempts = 0;
 void updateState(void)
 {
     // Para detectar transições de estado
-    static State previous_state = SLEEPING;
+    static State previous_state = BLOCKED;
     static State state = SLEEPING;
 
     u8 entering = previous_state != state;
