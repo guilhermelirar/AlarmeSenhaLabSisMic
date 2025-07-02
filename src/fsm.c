@@ -28,8 +28,9 @@ void updateState(void)
             {
                 lcdSleep();
                 led_G_off();
-                led_G_stt_Blink(30);
+                led_R_stt_Blink(500);
             }
+            if (inputLength()) state = READING_INPUT;
             break;
         }
         case (READING_INPUT):
