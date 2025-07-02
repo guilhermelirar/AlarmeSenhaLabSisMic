@@ -78,8 +78,8 @@ State stateReadingInput(u8 entering)
         volatile u8* input = inputBuffer();
         
         // ==== TODO: checar senha real ====== 
-        if (input[0] == 1 && input[1] == 2 &&
-            input[2] == 1 && input[3] == 2 &&
+        if (input[0] == 1 && input[1] == 1 &&
+            input[2] == 1 && input[3] == 1 &&
             input[4] == 1) {
             // Ir para acesso garantido
             access_attempts = 0;
