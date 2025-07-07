@@ -17,4 +17,8 @@ void uartPrint(char * string);
 
 void uartConfig();
 
+u8 commandPending();
+
+u8* getCommand();
+
 #endif // UART_H

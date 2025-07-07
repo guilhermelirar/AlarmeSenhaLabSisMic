@@ -1,6 +1,6 @@
 #include "uart.h"
 
-u8 ready;
+u8 command_received;
 
 u8 rxBuffer[20];
 
@@ -13,6 +13,18 @@ void uartPrint(char * string)
 	}
 }
 
+u8 commandPending(void) 
+{
+	u8 ans = command_received;
+	command_received = 0;
+	return ans;
+}
+
+u8* getCommand(void)
+{
+	return rxBuffer;
+}
+
 void uartConfig(void)
 {	
 	UCA1CTL1  = UCSWRST;		// RST a interface
@@ -22,17 +34,6 @@ void uartConfig(void)
 	P4SEL    |= BIT4 | BIT5;
 	UCA1CTL1 &= ~UCSWRST;
 	UCA1IE = UCRXIE;
-
-	__enable_interrupt();
-
-	while(1)
-	{
-		while(!ready);
-		ready = 0;
-
-		uartPrint("recebido!\n\r");
-
-	}
 }
 
 #pragma vector = 46 //USCI A1
@@ -49,6 +50,6 @@ __interrupt void uart_isr()
 		i = 0;
 
 	if(c == 0x0D)
-		ready = 1;
+		command_received = 1;
 	
 }
