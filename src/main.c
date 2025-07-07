@@ -18,6 +18,7 @@ int main(void)
   led_Init();
   inputInit();
   timerConfig();
+  uartConfig();
         
   // Interrupções
   __enable_interrupt();
