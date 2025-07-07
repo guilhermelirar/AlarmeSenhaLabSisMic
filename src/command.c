@@ -1,6 +1,6 @@
 #include "command.h"
 
-u8 handleCommand(char* cmd) {
+u8 handleCommand(u8* cmd) {
     if (cmd[0] == 'S' && cmd[1] == 'E' && cmd[2] == 'T' &&
           cmd[3] == 'P' && cmd[4] == 'W' && cmd[5] == ' ')
     {

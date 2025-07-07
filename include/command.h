@@ -2,6 +2,6 @@
 #define COMMAND_H
 #include "utils.h"
 
-u8 handleCommand(char* cmd);
+u8 handleCommand(u8* cmd);
 
 #endif // COMMAND_H
