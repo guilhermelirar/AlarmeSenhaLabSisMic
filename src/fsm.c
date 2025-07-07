@@ -30,6 +30,7 @@ void updateState(void)
                 lcdSleep();
                 led_G_off();
                 led_G_stt_Blink(30);
+                __low_power_mode_3(); // trocar p 0 se bugar
             }
             break;
         }

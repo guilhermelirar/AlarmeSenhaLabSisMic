@@ -52,4 +52,5 @@ __interrupt void uart_isr()
 	if(c == 0x0D)
 		command_received = 1;
 	
+	__low_power_mode_off_on_exit();
 }
