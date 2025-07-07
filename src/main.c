@@ -4,6 +4,8 @@
 #include "utils.h"
 #include "fsm.h"
 #include "input.h"
+#include "uart.h"
+#include "command.h"
 
 int main(void)
 {
@@ -25,5 +27,14 @@ int main(void)
     inputUpdate();   
     updateState();
     led_update();
+    
+    // Verifica comandos UART a cada laço
+    if (commandPending()) 
+    {
+      if (handleCommand(getCommand())) 
+        uartPrint("Comando executado com sucesso!\n");
+      else
+        uartPrint("O comando passado era inválido!\n"); 
+    }
   }
 }
