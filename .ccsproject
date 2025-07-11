@@ -9,4 +9,5 @@
 	<activeTargetConfiguration value="targetConfigs/MSP430F5529.ccxml"/>
 	<isTargetConfigurationManual value="false"/>
 	<filesToOpen value=""/>
+	<origin value="/home/guilherme/Documents/Projetos/AlarmeSenha"/>
 </projectOptions>
