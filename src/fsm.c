@@ -2,6 +2,7 @@
 #include "input.h"
 #include "lcd.h"
 #include "led.h"
+#include "uart.h"
 
 u32 last_transition;
 u8 access_attempts = 0;
@@ -30,7 +31,10 @@ void updateState(void)
                 led_G_off();
                 led_R_stt_Blink(500);
             }
+
+            __low_power_mode_3(); // trocar p 0 se bugar
             if (inputLength()) state = READING_INPUT;
+
             break;
         }
         case (READING_INPUT):
@@ -101,6 +105,7 @@ State stateAccessGranted(u8 entering)
         lcdClear();
         lcdWrite("ACESSO LIBERADO!");
         led_G_on();
+        uartPrint("ACESSO LIBERADO\n");
     }
 
     if (timeout(last_transition, 3000))
@@ -116,6 +121,7 @@ State stateAccessDenied(u8 entering)
         inputDisable();
         lcdClear();
         lcdWrite("ACESSO NEGADO!");
+        uartPrint("ACESSO NEGADO\n");
         led_G_off();
         led_R_stt_Blink(500);
         access_attempts++;
@@ -143,6 +149,7 @@ State stateBlocked(u8 entering)
         led_R_stt_Blink(500);
         last_time_dec = milis();
         time_remaining = 10;
+        uartPrint("BLOQUEADO APÓS 3 TENTATIVAS\n");
     }
     
     if (timeout(last_time_dec, 1000))

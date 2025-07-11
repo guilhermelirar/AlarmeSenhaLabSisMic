@@ -103,6 +103,7 @@ __interrupt void S1_ISR(void) {
 
     // Timer de debounce
     TA1CTL = TASSEL_2 + MC_1 + TACLR;
+    __low_power_mode_off_on_exit();
   }
 }
 
@@ -113,5 +114,6 @@ __interrupt void S2_ISR(void) {
     P1IFG &= ~BIT1;
 
     TA1CTL = TASSEL_2 + MC_1 + TACLR;
+    __low_power_mode_off_on_exit();
   }
 }
