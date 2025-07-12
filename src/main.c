@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "fsm.h"
 #include "input.h"
+#include "password.h"
 #include "uart.h"
 
 u8 handleCommand(u8 *cmd);
@@ -19,7 +20,11 @@ int main(void)
   led_Init();
   inputInit();
   timerConfig();
+
+  password_Init();
+
   uartConfig();
+
         
   // Interrupções
   __enable_interrupt();
