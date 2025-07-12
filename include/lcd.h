@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+// Comentar caso LCD não disponível
+#define LCD_AVAILABLE
+
+#ifdef LCD_AVAILABLE
+
 #define LCD_I2C_ADDR 0x27 // ou 0x3F
 
 #define LCD_RS 0x01 // 0: Comando, 1: Dados
@@ -55,5 +60,24 @@ static inline void lcdClear(void) {
   lcdWriteByte(1, 0);    // Limpar display
   __delay_cycles(20000); // Blind wait
 }
+
+#else // LCD_AVAILABLE
+
+// Stubs — definem funções "fakes" quando o LCD está desabilitado
+static inline void lcdPreInit(void) {}
+static inline void i2cInitMaster(void) {}
+static inline void lcdInit(void) {}
+static inline uint8_t i2cSend(uint8_t addr, uint8_t data) { return 0; }
+static inline uint8_t lcdWriteNibble(uint8_t nibble, uint8_t isChar) { return 0; }
+static inline uint8_t lcdWriteByte(uint8_t byte, uint8_t isChar) { return 0; }
+static inline void lcdWrite(char *str) {}
+static inline void lcdWriteWaitSeconds(uint8_t s) {}
+static inline void lcdClearLine2(void) {}
+static inline void line2(void) {}
+static inline void lcdSleep(void) {}
+static inline void lcdWake(void) {}
+static inline void lcdClear(void) {}
+
+#endif // LCD_AVAILABLE
 
 #endif // LCD_H_INCLUDED

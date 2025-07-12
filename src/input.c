@@ -26,7 +26,7 @@ void inputInit(void)
 void clearInput(void)
 {
     input.length = 0;
-    input.last_modified = milis();  
+    input.last_modified = milis();
 }
 
 void inputUpdate(void)
@@ -64,7 +64,7 @@ volatile u8* inputBuffer(void)
 
 u8 inputIsActive(void)
 {
-    return !(input.length == 0 && timeout(input.last_modified, 30000));
+    return !(input.length == 0 && timeout(input.last_modified, 3000));
 }
 
 u8 inputLength(void)
@@ -72,7 +72,7 @@ u8 inputLength(void)
     return input.length;
 }
 
-#pragma vector = TIMER0_A1_VECTOR
+#pragma vector = TIMER1_A0_VECTOR
 __interrupt void debounce(void) {
     TA1CTL = MC_0;    // Para o timer
 
@@ -85,12 +85,12 @@ __interrupt void debounce(void) {
     // (else if para invalidar quando dois botões pressionados)
     if ((P1IN & BIT1) == 0) 
     {
-        input.buffer[input.length++] = 2;  
+        input.buffer[input.length++] = 1;  
         input.last_modified = milis();
     } 
     else if ((P2IN & BIT1) == 0) 
     {    
-        input.buffer[input.length++] = 1;  
+        input.buffer[input.length++] = 0;  
         input.last_modified = milis();
     }
 }
@@ -103,6 +103,7 @@ __interrupt void S1_ISR(void) {
 
     // Timer de debounce
     TA1CTL = TASSEL_2 + MC_1 + TACLR;
+    __low_power_mode_off_on_exit();
   }
 }
 
@@ -113,5 +114,6 @@ __interrupt void S2_ISR(void) {
     P1IFG &= ~BIT1;
 
     TA1CTL = TASSEL_2 + MC_1 + TACLR;
+    __low_power_mode_off_on_exit();
   }
 }
