@@ -2,6 +2,7 @@
 #include "input.h"
 #include "lcd.h"
 #include "led.h"
+#include "uart.h"
 
 u32 last_transition;
 u8 access_attempts = 0;
@@ -9,7 +10,7 @@ u8 access_attempts = 0;
 void updateState(void)
 {
     // Para detectar transições de estado
-    static State previous_state = SLEEPING;
+    static State previous_state = BLOCKED;
     static State state = SLEEPING;
 
     u8 entering = previous_state != state;
@@ -28,8 +29,12 @@ void updateState(void)
             {
                 lcdSleep();
                 led_G_off();
-                led_G_stt_Blink(30);
+                led_R_stt_Blink(500);
             }
+
+            __low_power_mode_3(); // trocar p 0 se bugar
+            if (inputLength()) state = READING_INPUT;
+
             break;
         }
         case (READING_INPUT):
@@ -77,14 +82,14 @@ State stateReadingInput(u8 entering)
         volatile u8* input = inputBuffer();
         
         // ==== TODO: checar senha real ====== 
-        if (input[0] == 1 && input[1] == 2 &&
-            input[2] == 1 && input[3] == 2 &&
+        if (input[0] == 1 && input[1] == 1 &&
+            input[2] == 1 && input[3] == 1 &&
             input[4] == 1) {
             // Ir para acesso garantido
-            access_attempts = 0;
+            clearInput();
             return ACCESS_GRANTED;
         } else {
-            access_attempts++;
+            clearInput();
             return ACCESS_DENIED;
         }
         // ==================================
@@ -96,9 +101,11 @@ State stateAccessGranted(u8 entering)
 {
     if (entering)
     {
+        access_attempts = 0;
         lcdClear();
         lcdWrite("ACESSO LIBERADO!");
         led_G_on();
+        uartPrint("ACESSO LIBERADO\n");
     }
 
     if (timeout(last_transition, 3000))
@@ -114,8 +121,10 @@ State stateAccessDenied(u8 entering)
         inputDisable();
         lcdClear();
         lcdWrite("ACESSO NEGADO!");
+        uartPrint("ACESSO NEGADO\n");
         led_G_off();
         led_R_stt_Blink(500);
+        access_attempts++;
     }
 
     // Depende de quantas tentativas erradas seguidas
@@ -134,11 +143,13 @@ State stateBlocked(u8 entering)
     static u32 last_time_dec = 0;
     if (entering)
     {
+        access_attempts = 0;
         inputDisable();
         lcdClear();
         led_R_stt_Blink(500);
         last_time_dec = milis();
         time_remaining = 10;
+        uartPrint("BLOQUEADO APÓS 3 TENTATIVAS\n");
     }
     
     if (timeout(last_time_dec, 1000))
