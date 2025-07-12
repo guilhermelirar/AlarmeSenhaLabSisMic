@@ -22,12 +22,12 @@ int check_password(){
     u8* user_password = get_password();          // resgata a senha na memoria
     volatile u8* entered_password = inputBuffer();        // resgata a senha do buffer de entrada dos botoes
 
-    for (i=0;i<PASSWORD_SIZE;i++){
+    for (i=0;i<PASSWORD_SIZE*2;i+=2){
         if(user_password[i]!=entered_password[i]){
-            return 1;
+            return 0;
         }
     }
-    return 0;
+    return 1;
 }
 
 void erase_password(){
