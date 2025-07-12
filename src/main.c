@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "fsm.h"
 #include "input.h"
+#include "password.h"
 
 int main(void)
 {
@@ -16,6 +17,7 @@ int main(void)
   led_Init();
   inputInit();
   timerConfig();
+  password_Init();
         
   // Interrupções
   __enable_interrupt();
