@@ -3,6 +3,7 @@
 #include "lcd.h"
 #include "led.h"
 #include "uart.h"
+#include "password.h"
 
 u32 last_transition;
 u8 access_attempts = 0;
@@ -74,17 +75,10 @@ State stateReadingInput(u8 entering)
         return SLEEPING;
     };
 
-    u8 input_length = inputLength();
-
     // Senha completa
-    if (input_length == 5)
-    {
-        volatile u8* input = inputBuffer();
-        
-        // ==== TODO: checar senha real ====== 
-        if (input[0] == 1 && input[1] == 1 &&
-            input[2] == 1 && input[3] == 1 &&
-            input[4] == 1) {
+    if (inputLength() == PASSWORD_SIZE)
+    {   
+        if (check_password()) {
             // Ir para acesso garantido
             clearInput();
             return ACCESS_GRANTED;
