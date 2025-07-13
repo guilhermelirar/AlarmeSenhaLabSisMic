@@ -22,5 +22,7 @@ State stateReadingInput(u8 entering);
 State stateAccessGranted(u8 entering);
 State stateAccessDenied(u8 entering);
 State stateBlocked(u8 entering);
+State statePasswordChange(u8 entering);
+State statePasswordConfirm(u8 entering);
 
 #endif // FINITE_STATE_MACHINE_H
