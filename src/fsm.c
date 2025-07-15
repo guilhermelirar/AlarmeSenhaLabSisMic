@@ -3,9 +3,11 @@
 #include "lcd.h"
 #include "led.h"
 #include "uart.h"
+#include "password.h"
 
 u32 last_transition;
 u8 access_attempts = 0;
+u8 new_pw[PASSWORD_SIZE];
 
 void updateState(void)
 {
@@ -27,6 +29,7 @@ void updateState(void)
         {
             if (entering) 
             {
+                access_attempts = 0;
                 lcdSleep();
                 led_G_off();
                 led_R_stt_Blink(500);
@@ -74,17 +77,10 @@ State stateReadingInput(u8 entering)
         return SLEEPING;
     };
 
-    u8 input_length = inputLength();
-
     // Senha completa
-    if (input_length == 5)
-    {
-        volatile u8* input = inputBuffer();
-        
-        // ==== TODO: checar senha real ====== 
-        if (input[0] == 1 && input[1] == 1 &&
-            input[2] == 1 && input[3] == 1 &&
-            input[4] == 1) {
+    if (inputLength() == PASSWORD_SIZE)
+    {   
+        if (check_password()) {
             // Ir para acesso garantido
             clearInput();
             return ACCESS_GRANTED;
@@ -106,6 +102,12 @@ State stateAccessGranted(u8 entering)
         lcdWrite("ACESSO LIBERADO!");
         led_G_on();
         uartPrint("ACESSO LIBERADO\n");
+    }
+
+    if (inputLength())
+    {
+        clearInput();
+        return PASSWORD_CHANGE;
     }
 
     if (timeout(last_transition, 3000))
@@ -167,4 +169,83 @@ State stateBlocked(u8 entering)
 
     // Pode receber entradas agora
     return READING_INPUT;
+}
+
+State statePasswordChange(u8 entering)
+{
+    if (entering)
+    {
+        led_G_off();
+        
+        if (access_attempts) {
+            led_R_stt_Blink(500);
+        } else {
+            led_R_off();
+        }
+
+        lcdClear();
+        lcdWrite("INSIRA NOVA SENHA\n");
+        access_attempts = 0;
+        inputEnable();
+    }
+
+    // Parar de piscar
+    if (timeout(last_transition, 3000))
+    {
+        led_R_off();
+    }
+
+
+    // 3 segundos com entrada vazia
+    if (!inputIsActive()) {
+        return SLEEPING;
+    };
+
+    // Senha completa
+    if (inputLength() == PASSWORD_SIZE)
+    {   
+        u8 i;
+        for (i=0; i<PASSWORD_SIZE; i++) {
+            new_pw[i] = inputBuffer()[i];
+        }
+        return PASSWORD_CONFIRM;
+    }
+
+    return PASSWORD_CHANGE;
+}
+
+State statePasswordConfirm(u8 entering) 
+{   
+    if (entering)
+    {
+        access_attempts = 0;
+        led_G_off();
+        led_R_off();
+        lcdClear();
+        lcdWrite("CONFIRME A SENHA\n");
+        inputEnable();
+    }
+
+    // 3 segundos com entrada vazia
+    if (!inputIsActive()) {
+        return SLEEPING;
+    };
+
+    // Senha completa
+    if (inputLength() == PASSWORD_SIZE)
+    {   
+        u8 i;
+        for (i=0; i<PASSWORD_SIZE; i++) {
+            if (new_pw[i] != inputBuffer()[i]) 
+            {
+                clearInput();
+                access_attempts++;
+                return PASSWORD_CHANGE; // Pede para inserir pela primeira vez
+            }
+        }
+        set_password(new_pw); // Nova senha
+        return SLEEPING;
+    }
+
+    return PASSWORD_CONFIRM;
 }
