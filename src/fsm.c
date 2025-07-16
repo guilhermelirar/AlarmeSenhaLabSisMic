@@ -55,6 +55,21 @@ void updateState(void)
             state = stateAccessDenied(entering);
             break;
         }
+        case (PASSWORD_CHANGE):
+        {
+            state = statePasswordChange(entering);
+            break;
+        }
+        case (PASSWORD_CONFIRM):
+        {
+            state = statePasswordConfirm(entering);
+            break;
+        }
+        case (BLOCKED):
+        {
+            state = stateBlocked(entering);
+            break;
+        }
         default: {
             state = SLEEPING;
             break;
