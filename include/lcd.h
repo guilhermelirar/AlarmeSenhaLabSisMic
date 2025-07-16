@@ -2,13 +2,14 @@
 #define LCD_H_INCLUDED
 
 #include <stdint.h>
+#include "utils.h"
 
 // Comentar caso LCD não disponível
 #define LCD_AVAILABLE
 
 #ifdef LCD_AVAILABLE
 
-#define LCD_I2C_ADDR 0x27 // ou 0x3F
+#define LCD_I2C_ADDR 0x3F // 0x27 // ou 0x3F
 
 #define LCD_RS 0x01 // 0: Comando, 1: Dados
 #define LCD_RW 0x02 // 0: Escrita, 1: Leitura
@@ -22,6 +23,8 @@ void lcdPreInit(void);
 void i2cInitMaster(void);
 
 void lcdInit(void);
+
+void lcdPrintSenha(u8* senha);
 
 // Envia um byte para o dispositivo I2C indicado pelo endereço
 uint8_t i2cSend(uint8_t slaveAddr, uint8_t data);
