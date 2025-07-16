@@ -35,7 +35,7 @@ void updateState(void)
                 led_R_stt_Blink(500);
             }
 
-            __low_power_mode_3(); // trocar p 0 se bugar
+            //__low_power_mode_3(); // trocar p 0 se bugar
             if (inputLength()) state = READING_INPUT;
 
             break;
