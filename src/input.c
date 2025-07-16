@@ -31,12 +31,10 @@ void clearInput(void)
 
 void inputUpdate(void)
 {
-    inputDisable();
     if (input.length && timeout(input.last_modified, 3000))
     {
         clearInput();
     }
-    inputEnable();
 }
 
 void inputEnable(void)
@@ -79,10 +77,7 @@ __interrupt void debounce(void) {
     // Evitar overflow de buffer
     if (input.length >= PASSWORD_SIZE) return;
 
-    inputEnable();    // Reabilita interrupções
-
     // Botão ainda pressionado? registrar evento
-    // (else if para invalidar quando dois botões pressionados)
     if ((P1IN & BIT1) == 0) 
     {
         input.buffer[input.length++] = 1;  
@@ -93,7 +88,14 @@ __interrupt void debounce(void) {
         input.buffer[input.length++] = 0;  
         input.last_modified = milis();
     }
+
+    // Limpa flags pendentes
+    P1IFG &= ~BIT1;
+    P2IFG &= ~BIT1;
+
+    inputEnable();
 }
+
 
 #pragma vector=PORT2_VECTOR
 __interrupt void S1_ISR(void) {
