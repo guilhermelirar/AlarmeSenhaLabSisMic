@@ -40,8 +40,8 @@ void lcdInit(void) {
   nibble = 2;
   lcdWriteNibble(nibble, 0);
   __delay_cycles(20000);
-
-  lcdClear();
+  lcdWake();
+  lcdClear(); 
 }
 
 uint8_t i2cSend(uint8_t slaveAddr, uint8_t data) {
@@ -116,4 +116,14 @@ void lcdClearLine2(void) {
         lcdWriteByte(' ', 1); // Escreve 16 espaços
     }
     lcdWriteByte(0xC0, 0);
+}
+
+void lcdPrintSenha(u8* senha)
+{
+  u8 i = 0;
+  lcdClearLine2();
+  for (i = 0; i<5; i++)
+  {
+    lcdWriteByte(senha[i] + '0', 1);
+  }
 }

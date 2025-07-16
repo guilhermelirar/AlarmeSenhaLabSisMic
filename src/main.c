@@ -16,6 +16,7 @@ int main(void)
   WDTCTL = WDTPW+WDTHOLD;                   // Stop WDT
 
   // Inicialização de módulos
+  erase_password();
   lcdPreInit();
   led_Init();
   inputInit();

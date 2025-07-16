@@ -7,7 +7,7 @@
 
 u32 last_transition;
 u8 access_attempts = 0;
-u8 new_pw[PASSWORD_SIZE];
+u16 new_pw[PASSWORD_SIZE];
 
 void updateState(void)
 {
@@ -16,11 +16,12 @@ void updateState(void)
     static State state = SLEEPING;
 
     u8 entering = previous_state != state;
-    previous_state = state;
+    //previous_state = state;
 
     if (entering)
     {
         last_transition = milis();
+        previous_state = state;
     }
 
     // Usar funções de comportamento de cada estado
@@ -30,7 +31,6 @@ void updateState(void)
             if (entering) 
             {
                 access_attempts = 0;
-                lcdSleep();
                 led_G_off();
                 led_R_stt_Blink(500);
             }
@@ -55,6 +55,21 @@ void updateState(void)
             state = stateAccessDenied(entering);
             break;
         }
+        case (PASSWORD_CHANGE):
+        {
+            state = statePasswordChange(entering);
+            break;
+        }
+        case (PASSWORD_CONFIRM):
+        {
+            state = statePasswordConfirm(entering);
+            break;
+        }
+        case (BLOCKED):
+        {
+            state = stateBlocked(entering);
+            break;
+        }
         default: {
             state = SLEEPING;
             break;
@@ -68,7 +83,7 @@ State stateReadingInput(u8 entering)
     {
         lcdClear();
         led_R_off();
-        lcdWrite("INSIRA A SENHA:");
+        lcdWrite("INSIRA A SENHA:\n");
         inputEnable();
     }
 
@@ -90,6 +105,8 @@ State stateReadingInput(u8 entering)
         }
         // ==================================
     }
+
+    lcdPrintSenha(inputBuffer());
     return READING_INPUT;
 }
 
@@ -185,6 +202,7 @@ State statePasswordChange(u8 entering)
 
         lcdClear();
         lcdWrite("INSIRA NOVA SENHA\n");
+        clearInput();
         access_attempts = 0;
         inputEnable();
     }
@@ -208,6 +226,7 @@ State statePasswordChange(u8 entering)
         for (i=0; i<PASSWORD_SIZE; i++) {
             new_pw[i] = inputBuffer()[i];
         }
+        clearInput();
         return PASSWORD_CONFIRM;
     }
 
@@ -246,6 +265,6 @@ State statePasswordConfirm(u8 entering)
         set_password(new_pw); // Nova senha
         return SLEEPING;
     }
-
+    lcdPrintSenha(inputBuffer());
     return PASSWORD_CONFIRM;
 }

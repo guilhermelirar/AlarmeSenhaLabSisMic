@@ -20,7 +20,7 @@ void inputInit(void)
     // Configuração de timer para debounce
     TA1CCTL0 = CCIE;
     TA1CCR0 = 5000;
-    TA1CTL = TASSEL_2 + MC_0 + TACLR;
+    TA1CTL = TASSEL_2 | TACLR;
 }
 
 void clearInput(void)
